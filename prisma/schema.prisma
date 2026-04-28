@@ -1,0 +1,117 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated-client"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// Enums removed for SQLite compatibility
+
+model User {
+  id        String       @id @default(uuid())
+  name      String
+  email     String?      @unique
+  phone     String       @unique
+  role      String       @default("CITIZEN")
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  family    Family?
+  requests  SOSRequest[]
+}
+
+model Family {
+  id        String         @id @default(uuid())
+  userId    String         @unique
+  user      User           @relation(fields: [userId], references: [id])
+  count     Int            @default(1)
+  address   String?
+  members   FamilyMember[]
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  shelterId String?
+  shelter   Shelter?       @relation(fields: [shelterId], references: [id])
+}
+
+model FamilyMember {
+  id                String   @id @default(uuid())
+  familyId          String
+  family            Family   @relation(fields: [familyId], references: [id])
+  name              String
+  age               Int
+  bloodGroup        String?
+  medicalConditions String?
+  createdAt         DateTime @default(now())
+}
+
+model SOSRequest {
+  id                 String        @id @default(uuid())
+  userId             String
+  user               User          @relation(fields: [userId], references: [id])
+  name               String? // Name of person in distress
+  type               String
+  severity           Int           @default(1) // 1 to 10
+  lat                Float
+  lng                Float
+  priorityScore      String        @default("LOW")
+  calculationFactors Json?
+  isOfflineSync      Boolean       @default(false)
+  isVoice            Boolean       @default(false)
+  status             String        @default("PENDING") // PENDING, DISPATCHED, RESOLVED
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+}
+
+model RescueTeam {
+  id        String   @id @default(uuid())
+  name      String
+  lat       Float
+  lng       Float
+  isActive  Boolean  @default(true)
+  status    String   @default("ACTIVE") // ACTIVE, ON_MISSION, IDLE
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Shelter {
+  id               String     @id @default(uuid())
+  name             String
+  lat              Float
+  lng              Float
+  capacity         Int
+  currentOccupancy Int        @default(0)
+  families         Family[]
+  resources        Resource[]
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+}
+
+model Resource {
+  id        String   @id @default(uuid())
+  shelterId String
+  shelter   Shelter  @relation(fields: [shelterId], references: [id])
+  type      String // FOOD, WATER, MEDICAL
+  quantity  Int // in units
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model BroadcastAlert {
+  id        String   @id @default(uuid())
+  alertType String
+  message   String
+  severity  String @default("LOW")
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model DroneIntel {
+  id        String   @id @default(uuid())
+  lat       Float
+  lng       Float
+  type      String // FLOODED_ROAD, BLOCKED_AREA, SAFE_ROUTE
+  severity  Int // 1 to 10
+  timestamp DateTime @default(now())
+}

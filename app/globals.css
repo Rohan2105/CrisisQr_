@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #ffffff;
+  --color-foreground: #1c1c1c;
+
+  --color-muted: #f8f9fa;
+  --color-muted-foreground: #666666;
+
+  --color-primary: #1c1c1c;
+  --color-primary-foreground: #ffffff;
+
+  --color-border: #1c1c1c; /* strict dark border for brutalist */
+
+  --color-status-critical: #d32f2f;
+  --color-status-high: #f57c00;
+  --color-status-medium: #fbc02d;
+  --color-status-low: #388e3c;
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-border, currentColor);
+  }
+}
+
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.5;
+    margin: 0;
+  }
+  
+  /* Disable dark mode completely */
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: var(--color-background);
+      color: var(--color-foreground);
+    }
+  }
+}
+
+@layer utilities {
+  .brutalist-border {
+    border: 1px solid var(--color-border);
+  }
+  .brutalist-frame {
+    border: 1px solid var(--color-border);
+    background-color: var(--color-muted);
+  }
+  .brutalist-button {
+    background-color: var(--color-primary);
+    color: var(--color-primary-foreground);
+    border: 1px solid var(--color-primary);
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    transition: background-color 0.2s, color 0.2s;
+  }
+  .brutalist-button:hover {
+    background-color: var(--color-background);
+    color: var(--color-primary);
+  }
+  .brutalist-button-outline {
+    background-color: transparent;
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    transition: background-color 0.2s, color 0.2s;
+  }
+  .brutalist-button-outline:hover {
+    background-color: var(--color-primary);
+    color: var(--color-primary-foreground);
+  }
+}
