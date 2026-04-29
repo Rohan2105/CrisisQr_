@@ -1,11 +1,10 @@
 import { PrismaClient } from './generated-client';
-import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
 import { faker } from '@faker-js/faker';
 import "dotenv/config";
 
-const dbUrl = process.env.DATABASE_URL || 'file:./dev.db';
-const adapter = new PrismaBetterSqlite3({ url: dbUrl });
-const prisma = new PrismaClient({ adapter });
+const prisma = new PrismaClient({
+  accelerateUrl: process.env.ACCELERATE_URL
+});
 
 const MAJOR_INDIAN_CITIES = [
   { name: 'Mumbai', lat: 19.0760, lng: 72.8777 },
@@ -23,7 +22,7 @@ const MAJOR_INDIAN_CITIES = [
 async function main() {
   console.log('--- PURGING DATABASE ---');
   await prisma.resource.deleteMany();
-  await prisma.sOSRequest.deleteMany();
+  await prisma.sosRequest.deleteMany();
   await prisma.rescueTeam.deleteMany();
   await prisma.familyMember.deleteMany();
   await prisma.family.deleteMany();
@@ -85,7 +84,7 @@ async function main() {
     const isVoice = Math.random() < 0.2; // 20% Voice SOS
     const city = faker.helpers.arrayElement(MAJOR_INDIAN_CITIES);
     
-    await prisma.sOSRequest.create({
+    await prisma.sosRequest.create({
       data: {
         userId: demoUser.id,
         name: faker.person.fullName(),

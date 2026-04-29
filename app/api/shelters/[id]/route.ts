@@ -5,11 +5,12 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   try {
     const shelter = await prisma.shelter.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: { resources: true },
     });
 

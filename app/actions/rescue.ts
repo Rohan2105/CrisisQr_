@@ -34,7 +34,7 @@ export async function addFamilyToShelter(formData: FormData) {
       // We could also create a Family record here if we had member names, 
       // but the prompt focuses on capacity synchronization.
     ]);
-    
+
     revalidatePath('/rescue/dashboard');
     revalidatePath('/admin/control-room');
     revalidatePath('/citizen/dashboard');

@@ -1,7 +1,7 @@
 'use server';
 
 import prisma from '@/lib/prisma';
-import { EmergencyType, PriorityScore } from '@prisma/client';
+
 import { revalidatePath } from 'next/cache';
 
 function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
@@ -19,7 +19,7 @@ function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: numbe
 export async function submitSOSRequest(payload: {
   userId: string;
   name: string;
-  type: EmergencyType;
+  type: string;
   lat: number;
   lng: number;
   isVoice?: boolean;
@@ -27,7 +27,7 @@ export async function submitSOSRequest(payload: {
 }) {
   try {
     // 1. Save the SOS Request
-    const sosRequest = await prisma.sOSRequest.create({
+    const sosRequest = await prisma.sosRequest.create({
       data: {
         userId: payload.userId,
         name: payload.name,
@@ -35,7 +35,7 @@ export async function submitSOSRequest(payload: {
         lat: payload.lat,
         lng: payload.lng,
         isVoice: payload.isVoice || false,
-        priorityScore: PriorityScore.MEDIUM, // Default, will be AI refined
+        priorityScore: 'MEDIUM', // Default, will be AI refined
         calculationFactors: payload.transcription ? { transcription: payload.transcription } : {},
         status: 'PENDING',
       },

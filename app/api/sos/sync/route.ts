@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import { PriorityScore } from '@prisma/client';
+
 
 export const dynamic = 'force-dynamic';
 
@@ -43,12 +43,12 @@ export async function POST(req: Request) {
         calcFactors['Time Waiting'] = timeScore;
       }
 
-      let priorityScore: PriorityScore = 'LOW';
+      let priorityScore = 'LOW';
       if (score >= 60) priorityScore = 'CRITICAL';
       else if (score >= 40) priorityScore = 'HIGH';
       else if (score >= 20) priorityScore = 'MEDIUM';
 
-      const sosRequest = await prisma.sOSRequest.create({
+      const sosRequest = await prisma.sosRequest.create({
         data: {
           userId,
           type,

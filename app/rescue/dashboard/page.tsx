@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useCallback, useMemo, Suspense } from 'react';
 import { Frame } from '@/components/Frame';
 import dynamic from 'next/dynamic';
-import { Navigation, Radio, List, X, Filter, Voice, FileText, ChevronDown, ChevronUp, Activity } from 'lucide-react';
+import { Navigation, Radio, List, X, Filter, Mic, FileText, ChevronDown, ChevronUp, Activity } from 'lucide-react';
 import type { SOSMarker } from '@/components/CrisisMap';
 import { fetchMapTilerRoute } from '@/lib/routing';
 import { MapFallback, TableSkeleton, MetricsSkeleton } from '@/components/Skeletons';

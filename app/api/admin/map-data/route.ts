@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 export async function GET() {
   try {
     const [requests, teams, shelters] = await Promise.all([
-      prisma.sOSRequest.findMany({
+      prisma.sosRequest.findMany({
         where: { status: { not: 'RESOLVED' } },
         include: { user: true },
         orderBy: { createdAt: 'desc' },

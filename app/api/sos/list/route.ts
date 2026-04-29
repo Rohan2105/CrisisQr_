@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const requests = await prisma.sOSRequest.findMany({
+    const requests = await prisma.sosRequest.findMany({
       where: { status: { not: 'RESOLVED' } },
       include: { user: true },
       orderBy: { createdAt: 'desc' },

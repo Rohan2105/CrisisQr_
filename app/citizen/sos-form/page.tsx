@@ -74,7 +74,7 @@ export default function SOSForm() {
           setRouteGeom(geom);
         }
 
-        setStatus(`SOS Transmitted. ID: ${result.requestId.substring(0, 8)}`);
+        setStatus(`SOS Transmitted. ID: ${result.requestId?.substring(0, 8) || 'N/A'}`);
         setSubmitted(true);
       } else {
         setStatus(result.error || 'Error submitting SOS.');

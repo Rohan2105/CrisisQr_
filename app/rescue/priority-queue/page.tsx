@@ -6,7 +6,7 @@ import { ArrowLeft } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 async function getPriorityQueue() {
-  const requests = await prisma.sOSRequest.findMany({
+  const requests = await prisma.sosRequest.findMany({
     orderBy: [
       { priorityScore: 'asc' }, // Will sort CRITICAL, HIGH, LOW, MEDIUM alphabetically. Let's sort manually or based on a mapped score, but for demo we can fetch and sort in memory if needed.
       { createdAt: 'asc' }

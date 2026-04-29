@@ -4,7 +4,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
 }
 
 // Enums removed for SQLite compatibility
@@ -18,7 +18,7 @@ model User {
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
   family    Family?
-  requests  SOSRequest[]
+  requests  SosRequest[]
 }
 
 model Family {
@@ -45,7 +45,7 @@ model FamilyMember {
   createdAt         DateTime @default(now())
 }
 
-model SOSRequest {
+model SosRequest {
   id                 String        @id @default(uuid())
   userId             String
   user               User          @relation(fields: [userId], references: [id])
